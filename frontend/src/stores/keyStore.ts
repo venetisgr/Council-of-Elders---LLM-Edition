@@ -32,6 +32,7 @@ const defaultKeyState = (): KeyState => ({
   valid: null,
   validating: false,
   models: [],
+  error: null,
 });
 
 export const useKeyStore = create<KeyStore>((set, get) => ({
@@ -69,6 +70,7 @@ export const useKeyStore = create<KeyStore>((set, get) => ({
           key,
           valid: null,
           models: [],
+          error: null,
         },
       },
     }));
@@ -82,7 +84,7 @@ export const useKeyStore = create<KeyStore>((set, get) => ({
     set((s) => ({
       keys: {
         ...s.keys,
-        [provider]: { ...keyState, validating: true },
+        [provider]: { ...keyState, validating: true, error: null },
       },
     }));
 
@@ -96,10 +98,17 @@ export const useKeyStore = create<KeyStore>((set, get) => ({
             valid: result.valid,
             validating: false,
             models: result.available_models,
+            error: result.valid ? null : result.message,
           },
         },
       }));
-    } catch {
+    } catch (err) {
+      const error =
+        err instanceof TypeError
+          ? "Cannot reach the server. Is the backend running?"
+          : err instanceof Error
+            ? err.message
+            : "Validation failed unexpectedly.";
       set((s) => ({
         keys: {
           ...s.keys,
@@ -108,6 +117,7 @@ export const useKeyStore = create<KeyStore>((set, get) => ({
             valid: false,
             validating: false,
             models: [],
+            error,
           },
         },
       }));

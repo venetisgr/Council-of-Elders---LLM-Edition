@@ -65,4 +65,5 @@ export interface KeyState {
   valid: boolean | null;
   validating: boolean;
   models: string[];
+  error: string | null;
 }

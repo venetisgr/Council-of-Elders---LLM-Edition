@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Trash2, User } from "lucide-react";
+import { Plus, Trash2, User, AlertCircle } from "lucide-react";
 import { Button } from "@/components/common/Button";
 import { useKeyStore } from "@/stores/keyStore";
 import { useConfigStore } from "@/stores/configStore";
@@ -96,6 +96,16 @@ export function ParticipantSelector() {
           Add
         </Button>
       </div>
+
+      {validatedProviders.length === 0 && (
+        <div className="flex items-center gap-2 rounded-lg bg-bronze/10 px-3 py-2">
+          <AlertCircle className="h-4 w-4 text-bronze flex-shrink-0" />
+          <span className="text-xs text-bronze">
+            No validated providers yet. Add and validate API keys above to
+            select participants.
+          </span>
+        </div>
+      )}
 
       {/* Participant list */}
       {participants.length > 0 && (
