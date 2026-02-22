@@ -16,11 +16,11 @@
 
 - [x] Create project architecture overview (`overview_roadmap_architecture.md`)
 - [x] Create task tracker (`TODO.md`)
-- [ ] Initialize monorepo structure (`frontend/` + `backend/`)
+- [x] Initialize monorepo structure (`frontend/` + `backend/`)
 - [ ] Set up React project with Vite + TypeScript + Tailwind CSS
-- [ ] Set up FastAPI project with project structure
+- [x] Set up FastAPI project with project structure
 - [ ] Configure linting and formatting (ESLint, Prettier, Ruff)
-- [ ] Set up Socket.IO on both frontend and backend
+- [x] Set up Socket.IO on both frontend and backend
 - [ ] Create basic dev environment documentation in README
 
 ---
@@ -28,20 +28,20 @@
 ## Phase 1: Foundation & MVP
 
 ### Backend — LLM Adapters
-- [ ] Define abstract `LLMAdapter` base class
-- [ ] Implement Anthropic (Claude) adapter with streaming
-- [ ] Implement OpenAI (GPT) adapter with streaming
-- [ ] Write unit tests for both adapters
+- [x] Define abstract `LLMAdapter` base class
+- [x] Implement Anthropic (Claude) adapter with streaming
+- [x] Implement OpenAI (GPT) adapter with streaming
+- [x] Write unit tests for both adapters (61 tests passing)
 
 ### Backend — Debate Orchestrator
-- [ ] Implement session management (in-memory sessions)
-- [ ] Build prompt construction system (system prompt, history, persona)
-- [ ] Implement round-robin turn management
-- [ ] Wire up WebSocket events (debate:start, turn_start, token_stream, turn_end)
-- [ ] Add manual termination (debate:stop)
+- [x] Implement session management (in-memory sessions)
+- [x] Build prompt construction system (system prompt, history, persona)
+- [x] Implement round-robin turn management
+- [x] Wire up WebSocket events (debate:start, turn_start, token_stream, turn_end)
+- [x] Add manual termination (debate:stop)
 
 ### Backend — API Routes
-- [ ] POST `/api/keys/validate` — Key validation endpoint
+- [x] POST `/api/keys/validate` — Key validation endpoint
 
 ### Frontend — API Key Panel
 - [ ] Build API key input form (Anthropic, OpenAI fields)
@@ -73,21 +73,21 @@
 ## Phase 2: Multi-LLM & Consensus
 
 ### Backend — Additional Adapters
-- [ ] Implement Gemini adapter with streaming
-- [ ] Implement xAI/Grok adapter (OpenAI-compatible) with streaming
-- [ ] Write unit tests for new adapters
+- [x] Implement Gemini adapter with streaming
+- [x] Implement xAI/Grok adapter (OpenAI-compatible) with streaming
+- [x] Write unit tests for new adapters
 
 ### Backend — Consensus Detection
-- [ ] Implement explicit agreement marker detection
-- [ ] Implement position extraction via LLM call
-- [ ] Implement stagnation detection
-- [ ] Build composite consensus scoring
-- [ ] Integrate consensus check into orchestrator loop
+- [x] Implement explicit agreement marker detection
+- [x] Implement position extraction via LLM call
+- [x] Implement stagnation detection
+- [x] Build composite consensus scoring
+- [x] Integrate consensus check into orchestrator loop
 
 ### Backend — Conspectus Generator
-- [ ] Build conspectus prompt template
-- [ ] Implement summary generation using available LLM
-- [ ] Return structured conspectus to frontend
+- [x] Build conspectus prompt template
+- [x] Implement summary generation using available LLM
+- [x] Return structured conspectus to frontend
 
 ### Frontend — Full Configuration
 - [ ] Full participant selection for 4 providers
