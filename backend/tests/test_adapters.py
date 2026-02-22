@@ -8,6 +8,15 @@ from app.adapters.anthropic_adapter import AnthropicAdapter, ANTHROPIC_MODELS
 from app.adapters.openai_adapter import OpenAIAdapter, OPENAI_MODELS
 from app.adapters.gemini_adapter import GeminiAdapter, GEMINI_MODELS
 from app.adapters.xai_adapter import XAIAdapter, XAI_BASE_URL, XAI_MODELS
+from app.adapters.deepseek_adapter import DeepSeekAdapter, DEEPSEEK_BASE_URL, DEEPSEEK_MODELS
+from app.adapters.kimi_adapter import KimiAdapter, KIMI_BASE_URL, KIMI_MODELS
+from app.adapters.qwen_adapter import QwenAdapter, QWEN_BASE_URL, QWEN_MODELS
+from app.adapters.glm_adapter import GLMAdapter, GLM_BASE_URL, GLM_MODELS
+
+ALL_PROVIDERS = {
+    "anthropic", "openai", "google", "xai",
+    "deepseek", "kimi", "qwen", "glm",
+}
 
 
 class TestAdapterFactory:
@@ -31,13 +40,32 @@ class TestAdapterFactory:
         assert isinstance(adapter, XAIAdapter)
         assert adapter.provider_name == "xai"
 
+    def test_get_deepseek_adapter(self):
+        adapter = get_adapter("deepseek")
+        assert isinstance(adapter, DeepSeekAdapter)
+        assert adapter.provider_name == "deepseek"
+
+    def test_get_kimi_adapter(self):
+        adapter = get_adapter("kimi")
+        assert isinstance(adapter, KimiAdapter)
+        assert adapter.provider_name == "kimi"
+
+    def test_get_qwen_adapter(self):
+        adapter = get_adapter("qwen")
+        assert isinstance(adapter, QwenAdapter)
+        assert adapter.provider_name == "qwen"
+
+    def test_get_glm_adapter(self):
+        adapter = get_adapter("glm")
+        assert isinstance(adapter, GLMAdapter)
+        assert adapter.provider_name == "glm"
+
     def test_unknown_provider_raises(self):
         with pytest.raises(ValueError, match="Unknown provider"):
             get_adapter("nonexistent")
 
     def test_all_providers_in_registry(self):
-        expected = {"anthropic", "openai", "google", "xai"}
-        assert set(PROVIDER_MODELS.keys()) == expected
+        assert set(PROVIDER_MODELS.keys()) == ALL_PROVIDERS
 
 
 class TestAnthropicAdapter:
@@ -46,6 +74,12 @@ class TestAnthropicAdapter:
         models = adapter.get_available_models()
         assert len(models) > 0
         assert models == ANTHROPIC_MODELS
+
+    def test_has_opus(self):
+        assert "claude-opus-4-6" in ANTHROPIC_MODELS
+
+    def test_has_sonnet(self):
+        assert "claude-sonnet-4-6" in ANTHROPIC_MODELS
 
     def test_prepare_messages_separates_system(self):
         messages = [
@@ -72,6 +106,9 @@ class TestOpenAIAdapter:
         models = adapter.get_available_models()
         assert len(models) > 0
         assert models == OPENAI_MODELS
+
+    def test_has_gpt52(self):
+        assert "gpt-5.2" in OPENAI_MODELS
 
     def test_prepare_messages(self):
         messages = [
@@ -101,7 +138,6 @@ class TestXAIAdapter:
         adapter = XAIAdapter()
         models = adapter.get_available_models()
         assert models == XAI_MODELS
-        # Should NOT return OpenAI models
         assert "gpt-4o" not in models
 
     def test_provider_name(self):
@@ -116,6 +152,9 @@ class TestGeminiAdapter:
         assert len(models) > 0
         assert models == GEMINI_MODELS
 
+    def test_has_gemini3(self):
+        assert "gemini-3-pro-preview" in GEMINI_MODELS
+
     def test_prepare_messages_separates_system(self):
         messages = [
             Message(role=MessageRole.SYSTEM, content="You are a philosopher."),
@@ -125,7 +164,6 @@ class TestGeminiAdapter:
         system, contents = GeminiAdapter._prepare_messages(messages)
         assert system == "You are a philosopher."
         assert len(contents) == 2
-        # Gemini uses 'model' instead of 'assistant'
         assert contents[0].role == "user"
         assert contents[1].role == "model"
 
@@ -134,6 +172,87 @@ class TestGeminiAdapter:
         system, contents = GeminiAdapter._prepare_messages(messages)
         assert system is None
         assert len(contents) == 1
+
+
+class TestDeepSeekAdapter:
+    def test_inherits_openai(self):
+        adapter = DeepSeekAdapter()
+        assert isinstance(adapter, OpenAIAdapter)
+
+    def test_uses_deepseek_base_url(self):
+        adapter = DeepSeekAdapter()
+        assert adapter._base_url == DEEPSEEK_BASE_URL
+
+    def test_available_models(self):
+        adapter = DeepSeekAdapter()
+        models = adapter.get_available_models()
+        assert models == DEEPSEEK_MODELS
+        assert "deepseek-chat" in models
+        assert "deepseek-reasoner" in models
+
+    def test_provider_name(self):
+        adapter = DeepSeekAdapter()
+        assert adapter.provider_name == "deepseek"
+
+
+class TestKimiAdapter:
+    def test_inherits_openai(self):
+        adapter = KimiAdapter()
+        assert isinstance(adapter, OpenAIAdapter)
+
+    def test_uses_kimi_base_url(self):
+        adapter = KimiAdapter()
+        assert adapter._base_url == KIMI_BASE_URL
+
+    def test_available_models(self):
+        adapter = KimiAdapter()
+        models = adapter.get_available_models()
+        assert models == KIMI_MODELS
+        assert "moonshot-v1-128k" in models
+
+    def test_provider_name(self):
+        adapter = KimiAdapter()
+        assert adapter.provider_name == "kimi"
+
+
+class TestQwenAdapter:
+    def test_inherits_openai(self):
+        adapter = QwenAdapter()
+        assert isinstance(adapter, OpenAIAdapter)
+
+    def test_uses_qwen_base_url(self):
+        adapter = QwenAdapter()
+        assert adapter._base_url == QWEN_BASE_URL
+
+    def test_available_models(self):
+        adapter = QwenAdapter()
+        models = adapter.get_available_models()
+        assert models == QWEN_MODELS
+        assert "qwen3-max" in models
+
+    def test_provider_name(self):
+        adapter = QwenAdapter()
+        assert adapter.provider_name == "qwen"
+
+
+class TestGLMAdapter:
+    def test_inherits_openai(self):
+        adapter = GLMAdapter()
+        assert isinstance(adapter, OpenAIAdapter)
+
+    def test_uses_glm_base_url(self):
+        adapter = GLMAdapter()
+        assert adapter._base_url == GLM_BASE_URL
+
+    def test_available_models(self):
+        adapter = GLMAdapter()
+        models = adapter.get_available_models()
+        assert models == GLM_MODELS
+        assert "glm-5" in models
+
+    def test_provider_name(self):
+        adapter = GLMAdapter()
+        assert adapter.provider_name == "glm"
 
 
 class TestGenerationConfig:

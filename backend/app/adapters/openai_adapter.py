@@ -12,10 +12,10 @@ from .base import GenerationConfig, GenerationResult, LLMAdapter, Message
 logger = logging.getLogger(__name__)
 
 OPENAI_MODELS = [
+    "gpt-5.2",
+    "gpt-5.2-pro",
     "gpt-4o",
     "gpt-4o-mini",
-    "gpt-4-turbo",
-    "o1",
     "o3-mini",
 ]
 

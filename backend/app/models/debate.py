@@ -12,6 +12,10 @@ class Provider(str, Enum):
     OPENAI = "openai"
     GOOGLE = "google"
     XAI = "xai"
+    DEEPSEEK = "deepseek"
+    KIMI = "kimi"
+    QWEN = "qwen"
+    GLM = "glm"
 
 
 class MessageRole(str, Enum):

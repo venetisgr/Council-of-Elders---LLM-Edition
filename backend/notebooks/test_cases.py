@@ -49,10 +49,14 @@ from app.services.session import SessionManager
 
 # Default cheap/fast models for testing (to minimize cost)
 TEST_MODELS = {
-    "anthropic": "claude-haiku-4-20250414",
+    "anthropic": "claude-haiku-4-5-20251001",
     "openai": "gpt-4o-mini",
     "google": "gemini-2.0-flash-lite",
     "xai": "grok-3-mini",
+    "deepseek": "deepseek-chat",
+    "kimi": "moonshot-v1-8k",
+    "qwen": "qwen-plus",
+    "glm": "glm-4-plus",
 }
 
 PROVIDER_TO_ENUM = {
@@ -60,6 +64,10 @@ PROVIDER_TO_ENUM = {
     "openai": Provider.OPENAI,
     "google": Provider.GOOGLE,
     "xai": Provider.XAI,
+    "deepseek": Provider.DEEPSEEK,
+    "kimi": Provider.KIMI,
+    "qwen": Provider.QWEN,
+    "glm": Provider.GLM,
 }
 
 
@@ -109,7 +117,7 @@ class TestSuite:
 async def test_adapter_factory_valid_providers() -> TestResult:
     """Test that all expected providers return valid adapters."""
     errors = []
-    for provider in ["anthropic", "openai", "google", "xai"]:
+    for provider in PROVIDER_TO_ENUM:
         try:
             adapter = get_adapter(provider)
             if adapter.provider_name != provider:
@@ -147,7 +155,7 @@ async def test_adapter_factory_invalid_provider() -> TestResult:
 async def test_adapter_available_models() -> TestResult:
     """Test that each adapter returns a non-empty model list."""
     errors = []
-    for provider in ["anthropic", "openai", "google", "xai"]:
+    for provider in PROVIDER_TO_ENUM:
         adapter = get_adapter(provider)
         models = adapter.get_available_models()
         if not models:

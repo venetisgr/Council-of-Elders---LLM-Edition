@@ -12,9 +12,9 @@ from .base import GenerationConfig, GenerationResult, LLMAdapter, Message, Messa
 logger = logging.getLogger(__name__)
 
 ANTHROPIC_MODELS = [
-    "claude-opus-4-20250514",
-    "claude-sonnet-4-20250514",
-    "claude-haiku-4-20250414",
+    "claude-opus-4-6",
+    "claude-sonnet-4-6",
+    "claude-haiku-4-5-20251001",
 ]
 
 
@@ -87,7 +87,7 @@ class AnthropicAdapter(LLMAdapter):
         try:
             # Minimal call: send a tiny message to verify the key works
             await client.messages.create(
-                model="claude-haiku-4-20250414",
+                model="claude-haiku-4-5-20251001",
                 max_tokens=1,
                 messages=[{"role": "user", "content": "hi"}],
             )

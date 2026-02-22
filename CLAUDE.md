@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Council of Elders - LLM Edition is a web application that recreates the ancient Athenian Agora as a multi-LLM debate platform. Users provide their own API keys, select LLM participants (Claude, GPT, Gemini, Grok), pose a topic, and watch the models debate in structured rounds until consensus is reached. A final conspectus summarizes the outcome.
+Council of Elders - LLM Edition is a web application that recreates the ancient Athenian Agora as a multi-LLM debate platform. Users provide their own API keys, select LLM participants (Claude, GPT, Gemini, Grok, DeepSeek, Kimi, Qwen, GLM), pose a topic, and watch the models debate in structured rounds until consensus is reached. A final conspectus summarizes the outcome.
 
 ## Tech Stack
 
@@ -13,7 +13,7 @@ Council of Elders - LLM Edition is a web application that recreates the ancient 
 | Frontend | React 18+, TypeScript, Vite, Tailwind CSS, Zustand, Socket.IO client |
 | Backend | Python 3.11+, FastAPI, python-socketio, httpx (async), Pydantic |
 | Real-time | WebSocket via Socket.IO (bidirectional: streaming tokens + user controls) |
-| LLM SDKs | `anthropic`, `openai` (also for xAI/Grok), `google-genai` |
+| LLM SDKs | `anthropic`, `openai` (also for xAI, DeepSeek, Kimi, Qwen, GLM), `google-genai` |
 
 ## Project Structure
 
@@ -81,7 +81,7 @@ API keys are ephemeral throughout the entire flow:
 5. Register the adapter in the provider factory
 6. Add the provider to the frontend's API Key Panel and participant selector
 
-Note: xAI/Grok uses the OpenAI-compatible API, so it reuses the `openai` SDK with a custom `base_url`.
+Note: xAI/Grok, DeepSeek, Kimi, Qwen, and GLM all use OpenAI-compatible APIs — they inherit from `OpenAIAdapter` with a custom `base_url`. Adding another OpenAI-compatible provider requires only a small adapter file (~30 lines).
 
 ## Key References
 

@@ -6,24 +6,39 @@ from __future__ import annotations
 # These are rough estimates — actual pricing varies by model.
 PRICING: dict[str, dict[str, float]] = {
     # Anthropic
-    "claude-opus-4-20250514": {"input": 15.0, "output": 75.0},
-    "claude-sonnet-4-20250514": {"input": 3.0, "output": 15.0},
-    "claude-haiku-4-20250414": {"input": 0.80, "output": 4.0},
+    "claude-opus-4-6": {"input": 15.0, "output": 75.0},
+    "claude-sonnet-4-6": {"input": 3.0, "output": 15.0},
+    "claude-haiku-4-5-20251001": {"input": 0.80, "output": 4.0},
     # OpenAI
+    "gpt-5.2": {"input": 1.75, "output": 14.0},
+    "gpt-5.2-pro": {"input": 15.0, "output": 60.0},
     "gpt-4o": {"input": 2.50, "output": 10.0},
     "gpt-4o-mini": {"input": 0.15, "output": 0.60},
-    "gpt-4-turbo": {"input": 10.0, "output": 30.0},
-    "o1": {"input": 15.0, "output": 60.0},
     "o3-mini": {"input": 1.10, "output": 4.40},
     # Google
+    "gemini-3-pro-preview": {"input": 1.25, "output": 10.0},
+    "gemini-2.5-pro-preview-06-05": {"input": 1.25, "output": 10.0},
     "gemini-2.0-flash": {"input": 0.10, "output": 0.40},
     "gemini-2.0-flash-lite": {"input": 0.075, "output": 0.30},
-    "gemini-1.5-pro": {"input": 1.25, "output": 5.0},
-    "gemini-1.5-flash": {"input": 0.075, "output": 0.30},
     # xAI
     "grok-3": {"input": 3.0, "output": 15.0},
     "grok-3-mini": {"input": 0.30, "output": 0.50},
     "grok-2": {"input": 2.0, "output": 10.0},
+    "grok-2-mini": {"input": 0.30, "output": 0.50},
+    # DeepSeek
+    "deepseek-chat": {"input": 0.27, "output": 1.10},
+    "deepseek-reasoner": {"input": 0.55, "output": 2.19},
+    # Kimi (Moonshot) — approximate
+    "moonshot-v1-128k": {"input": 0.84, "output": 0.84},
+    "moonshot-v1-32k": {"input": 0.34, "output": 0.34},
+    "moonshot-v1-8k": {"input": 0.17, "output": 0.17},
+    # Qwen (Alibaba) — approximate
+    "qwen3-max": {"input": 1.60, "output": 6.40},
+    "qwen3.5-plus": {"input": 0.80, "output": 3.20},
+    "qwen-plus": {"input": 0.80, "output": 3.20},
+    # GLM (Zhipu) — approximate
+    "glm-5": {"input": 0.80, "output": 2.56},
+    "glm-4-plus": {"input": 0.70, "output": 0.70},
 }
 
 

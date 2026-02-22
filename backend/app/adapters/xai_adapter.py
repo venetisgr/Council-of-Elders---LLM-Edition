@@ -10,6 +10,7 @@ XAI_MODELS = [
     "grok-3",
     "grok-3-mini",
     "grok-2",
+    "grok-2-mini",
 ]
 
 

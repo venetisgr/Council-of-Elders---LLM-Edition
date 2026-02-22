@@ -13,10 +13,10 @@ from .base import GenerationConfig, GenerationResult, LLMAdapter, Message, Messa
 logger = logging.getLogger(__name__)
 
 GEMINI_MODELS = [
+    "gemini-3-pro-preview",
+    "gemini-2.5-pro-preview-06-05",
     "gemini-2.0-flash",
     "gemini-2.0-flash-lite",
-    "gemini-1.5-pro",
-    "gemini-1.5-flash",
 ]
 
 
@@ -97,7 +97,7 @@ class GeminiAdapter(LLMAdapter):
         try:
             # Minimal call to verify the key
             client.models.generate_content(
-                model="gemini-2.0-flash-lite",
+                model="gemini-2.0-flash",
                 contents="hi",
                 config=types.GenerateContentConfig(max_output_tokens=1),
             )
