@@ -1,10 +1,13 @@
 import { io, Socket } from "socket.io-client";
+import { getBackendUrl } from "./api";
 
 let socket: Socket | null = null;
 
 export function getSocket(): Socket {
   if (!socket) {
-    socket = io({
+    const backendUrl = getBackendUrl();
+
+    socket = io(backendUrl || undefined, {
       autoConnect: false,
       transports: ["websocket", "polling"],
     });
