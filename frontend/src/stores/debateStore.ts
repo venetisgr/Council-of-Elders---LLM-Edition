@@ -164,12 +164,15 @@ export const useDebateStore = create<DebateStore>((set, get) => {
           set((state) => {
             const transcript = [...state.transcript];
             const lastIdx = transcript.length - 1;
-            transcript[lastIdx] = {
-              ...transcript[lastIdx],
-              content: result.content,
-              isStreaming: false,
-              token_count: result.token_count,
-            };
+            const last = transcript[lastIdx];
+            if (last) {
+              transcript[lastIdx] = {
+                ...last,
+                content: result.content,
+                isStreaming: false,
+                token_count: result.token_count,
+              };
+            }
             return { transcript, currentSpeaker: null };
           });
 
@@ -273,8 +276,8 @@ export const useDebateStore = create<DebateStore>((set, get) => {
         if (!firstParticipant) throw new Error("No participants");
 
         const history = get().consensusHistory;
-        const finalScore =
-          history.length > 0 ? history[history.length - 1].consensus_score : 0;
+        const lastCheck = history[history.length - 1];
+        const finalScore = lastCheck ? lastCheck.consensus_score : 0;
 
         const conspectus = await streamConspectus(
           {
