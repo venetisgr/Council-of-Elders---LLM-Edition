@@ -18,6 +18,38 @@ export function HowItWorks() {
       {open && (
         <div className="rounded-xl border border-stone/20 bg-white/80 backdrop-blur-sm p-6 shadow-sm mt-2 mb-4 text-sm text-ink leading-relaxed space-y-6">
 
+          {/* ---- Overview ---- */}
+          <div>
+            <h3 className="font-display text-base font-semibold mb-2">What is the Ancient Athenian Agora?</h3>
+            <p>
+              The <strong>Ancient Athenian Agora</strong> is a first-of-its-kind platform that brings the
+              world's leading AI models together for structured, multi-round deliberation on any topic you
+              choose. Instead of asking one model and hoping for the best, pit Claude, GPT, Gemini, Grok,
+              DeepSeek, Kimi, Qwen, and GLM against each other in a live debate — and let them argue,
+              challenge, and refine each other's reasoning in real time.
+            </p>
+            <p className="mt-2">
+              Think of it as a <strong>virtual panel of AI experts</strong>. Each participant brings a
+              different training background, knowledge base, and reasoning style. By forcing them to
+              engage directly with each other's arguments — agreeing where they find common ground and
+              pushing back where they don't — the Agora surfaces insights, blind spots, and nuances
+              that no single model would produce alone.
+            </p>
+            <p className="mt-3 font-semibold">Use it to:</p>
+            <ul className="mt-1 list-disc list-inside text-stone space-y-1">
+              <li><strong>Stress-test an idea</strong> — Get diverse AI perspectives before committing to a strategy, architecture, or decision.</li>
+              <li><strong>Research complex topics</strong> — Let multiple models debate the evidence and trade-offs so you see the full picture.</li>
+              <li><strong>Evaluate AI reasoning</strong> — Compare how different models approach the same problem, where they agree, and where they diverge.</li>
+              <li><strong>Generate robust conclusions</strong> — The consensus engine and final conspectus distill hours of potential research into a structured, multi-perspective summary.</li>
+              <li><strong>Learn and explore</strong> — Pose philosophical, scientific, or creative questions and watch genuinely different viewpoints collide.</li>
+            </ul>
+            <p className="mt-3">
+              Your API keys never leave your browser session and are never stored on any server. You bring
+              your own keys, you own the conversation, and you control every parameter — from per-participant
+              temperature and persona to the consensus threshold and moderator selection.
+            </p>
+          </div>
+
           {/* ---- Debate Flow ---- */}
           <div>
             <h3 className="font-display text-base font-semibold mb-2">Debate Flow</h3>
@@ -49,7 +81,7 @@ export function HowItWorks() {
             <div className="mt-3 space-y-4">
               {/* Signal 1 */}
               <div className="pl-4 border-l-2 border-bronze/30">
-                <p className="font-semibold">Signal 1 — Agreement Markers <span className="font-normal text-stone">(weight: 30%)</span></p>
+                <p className="font-semibold">Signal 1 — Agreement Markers <span className="font-normal text-stone">(weight: 25%)</span></p>
                 <p className="mt-1">
                   A text-scanning heuristic that counts how often participants use explicit
                   agreement phrases versus disagreement phrases in their responses.
@@ -77,7 +109,7 @@ export function HowItWorks() {
 
               {/* Signal 2 */}
               <div className="pl-4 border-l-2 border-bronze/30">
-                <p className="font-semibold">Signal 2 — LLM Moderator Analysis <span className="font-normal text-stone">(weight: 50%)</span></p>
+                <p className="font-semibold">Signal 2 — LLM Moderator Analysis <span className="font-normal text-stone">(weight: 60%)</span></p>
                 <p className="mt-1">
                   The participant you select as <strong>Moderator</strong> in the Argument Parameters
                   also acts as an impartial judge. After each round, the moderator LLM receives the
@@ -99,7 +131,7 @@ export function HowItWorks() {
 
               {/* Signal 3 */}
               <div className="pl-4 border-l-2 border-bronze/30">
-                <p className="font-semibold">Signal 3 — Stagnation Detection <span className="font-normal text-stone">(weight: 20%)</span></p>
+                <p className="font-semibold">Signal 3 — Stagnation Detection <span className="font-normal text-stone">(weight: 15%)</span></p>
                 <p className="mt-1">
                   Detects whether the debate is going in circles by comparing the vocabulary of the
                   current round to the previous round. All responses in each round are lowercased and
@@ -111,7 +143,7 @@ export function HowItWorks() {
                 <p className="mt-1">
                   If more than <strong>80%</strong> of the words overlap between rounds, stagnation is
                   flagged. When stagnation is detected, a penalty of 0.3 is applied (the signal
-                  contributes 0.14 instead of 0.20). Stagnation cannot be detected in the first round
+                  contributes 0.105 instead of 0.15). Stagnation cannot be detected in the first round
                   since there is no prior round to compare against.
                 </p>
               </div>
@@ -121,12 +153,12 @@ export function HowItWorks() {
             <div className="mt-4 rounded-lg bg-sand/40 px-4 py-3">
               <p className="font-semibold mb-1">Final Composite Formula</p>
               <code className="text-xs block bg-white/60 rounded px-3 py-2">
-                consensus = 0.30 &times; marker_score + 0.50 &times; llm_score + 0.20 &times; (1.0 &minus; stagnation_penalty)
+                consensus = 0.25 &times; marker_score + 0.60 &times; llm_score + 0.15 &times; (1.0 &minus; stagnation_penalty)
               </code>
               <p className="mt-2 text-xs text-stone">
                 The result is clamped to [0.0, 1.0]. When there is no stagnation the third term
-                contributes a full 0.20; when stagnation is detected the penalty (0.3) reduces it
-                to 0.14, lowering the composite by 0.06.
+                contributes a full 0.15; when stagnation is detected the penalty (0.3) reduces it
+                to 0.105, lowering the composite by 0.045.
               </p>
             </div>
           </div>
