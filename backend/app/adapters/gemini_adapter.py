@@ -103,8 +103,13 @@ class GeminiAdapter(LLMAdapter):
             )
             return True
         except Exception as e:
-            logger.warning(f"Google key validation failed: {e}")
-            return False
+            error_str = str(e).lower()
+            if "api key" in error_str or "permission" in error_str or "403" in error_str:
+                return False
+            elif "quota" in error_str or "429" in error_str:
+                raise RuntimeError("Rate limited. Please wait a moment and try again.")
+            else:
+                raise RuntimeError(f"Google API error: {e}")
 
     def get_available_models(self) -> list[str]:
         return GEMINI_MODELS.copy()
