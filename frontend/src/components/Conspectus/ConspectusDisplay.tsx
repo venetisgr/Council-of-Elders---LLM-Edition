@@ -11,12 +11,17 @@ function parseSections(md: string): Map<string, string> {
   const headings: { name: string; start: number }[] = [];
   let match: RegExpExecArray | null;
   while ((match = regex.exec(md)) !== null) {
-    headings.push({ name: match[1].trim().toLowerCase(), start: match.index });
+    const captured = match[1];
+    if (captured) {
+      headings.push({ name: captured.trim().toLowerCase(), start: match.index });
+    }
   }
   for (let i = 0; i < headings.length; i++) {
-    const end = i + 1 < headings.length ? headings[i + 1].start : md.length;
-    const body = md.slice(headings[i].start, end).trim();
-    sections.set(headings[i].name, body);
+    const current = headings[i]!;
+    const next = headings[i + 1];
+    const end = next ? next.start : md.length;
+    const body = md.slice(current.start, end).trim();
+    sections.set(current.name, body);
   }
   return sections;
 }
