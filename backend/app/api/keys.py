@@ -26,7 +26,15 @@ async def validate_key(request: KeyValidationRequest) -> KeyValidationResponse:
             message=str(e),
         )
 
-    is_valid = await adapter.validate_key(request.api_key)
+    try:
+        is_valid = await adapter.validate_key(request.api_key)
+    except RuntimeError as e:
+        # Non-auth failures (network, rate limit, API errors)
+        return KeyValidationResponse(
+            provider=request.provider,
+            valid=False,
+            message=str(e),
+        )
 
     if is_valid:
         return KeyValidationResponse(
@@ -39,7 +47,7 @@ async def validate_key(request: KeyValidationRequest) -> KeyValidationResponse:
         return KeyValidationResponse(
             provider=request.provider,
             valid=False,
-            message="API key is invalid or could not be verified.",
+            message="Invalid API key. Please check your key and try again.",
         )
 
 

@@ -21,7 +21,10 @@ export function DebateViewer({ onNewDebate }: DebateViewerProps) {
       {/* Header */}
       <div className="border-b border-stone/20 px-4 py-3 bg-white/60">
         <h2 className="font-display text-lg text-ink">The Agora</h2>
-        <p className="text-xs text-stone mt-0.5 line-clamp-2">{topic}</p>
+        <p className="text-sm text-bronze font-medium mt-0.5">
+          TODAY'S DEBATE:{" "}
+          <span className="text-ink">{topic}</span>
+        </p>
       </div>
 
       {/* Error banner */}

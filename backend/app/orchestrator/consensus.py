@@ -144,9 +144,9 @@ async def compute_consensus(
     """Compute the composite consensus score using multiple signals.
 
     Combines:
-    - Signal 1: Explicit agreement markers (weight: 0.3)
-    - Signal 2: LLM-based position analysis (weight: 0.5)
-    - Signal 3: Stagnation penalty (weight: 0.2)
+    - Signal 1: Explicit agreement markers (weight: 0.25)
+    - Signal 2: LLM-based position analysis (weight: 0.60)
+    - Signal 3: Stagnation penalty (weight: 0.15)
 
     Returns a dict with the composite score and analysis.
     """
@@ -169,7 +169,7 @@ async def compute_consensus(
     stagnation_penalty = 0.3 if stagnation else 0.0
 
     # Composite score
-    w1, w2, w3 = 0.3, 0.5, 0.2
+    w1, w2, w3 = 0.25, 0.60, 0.15
     composite = (
         w1 * marker_score
         + w2 * llm_score

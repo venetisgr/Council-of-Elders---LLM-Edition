@@ -238,7 +238,7 @@ class DebateOrchestrator:
         config = GenerationConfig(
             model=participant.model,
             max_tokens=self.session.config.max_tokens_per_turn,
-            temperature=self.session.config.temperature,
+            temperature=participant.temperature,
         )
 
         async for token in adapter.generate_stream(messages, config, api_key):

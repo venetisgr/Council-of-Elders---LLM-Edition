@@ -148,7 +148,7 @@ export const useDebateStore = create<DebateStore>((set, get) => {
               transcript: contextTranscript,
               api_key: apiKeys[participant.provider] ?? "",
               max_tokens: config.max_tokens_per_turn,
-              temperature: config.temperature,
+              temperature: participant.temperature,
             },
             (token) => {
               tokenBuffer[participant.display_name] =
@@ -213,18 +213,18 @@ export const useDebateStore = create<DebateStore>((set, get) => {
 
       if (_stopped) break;
 
-      // Consensus check after each round
+      // Consensus check after each round (using user-selected moderator)
       try {
-        const firstParticipant = config.participants[0];
+        const moderator = config.participants[config.moderator_index] ?? config.participants[0];
         const consensus = await checkConsensus(
           {
             topic: config.topic,
             round_transcript: roundTranscript,
             previous_round_responses: previousRoundResponses,
-            adapter_provider: firstParticipant?.provider,
-            adapter_model: firstParticipant?.model,
-            adapter_api_key: firstParticipant
-              ? apiKeys[firstParticipant.provider]
+            adapter_provider: moderator?.provider,
+            adapter_model: moderator?.model,
+            adapter_api_key: moderator
+              ? apiKeys[moderator.provider]
               : undefined,
           },
           _abortController?.signal
@@ -272,8 +272,8 @@ export const useDebateStore = create<DebateStore>((set, get) => {
       try {
         set({ generatingConspectus: true });
 
-        const firstParticipant = config.participants[0];
-        if (!firstParticipant) throw new Error("No participants");
+        const conspectusWriter = config.participants[config.moderator_index] ?? config.participants[0];
+        if (!conspectusWriter) throw new Error("No participants");
 
         const history = get().consensusHistory;
         const lastCheck = history[history.length - 1];
@@ -290,9 +290,9 @@ export const useDebateStore = create<DebateStore>((set, get) => {
             participants: config.participants.map((p) => p.display_name),
             rounds: get().currentRound,
             consensus_score: finalScore,
-            provider: firstParticipant.provider,
-            model: firstParticipant.model,
-            api_key: apiKeys[firstParticipant.provider] ?? "",
+            provider: conspectusWriter.provider,
+            model: conspectusWriter.model,
+            api_key: apiKeys[conspectusWriter.provider] ?? "",
           },
           () => {
             /* tokens handled by streamConspectus; set all at once */

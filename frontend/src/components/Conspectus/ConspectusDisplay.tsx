@@ -1,8 +1,31 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { FileText, Copy, Check, Loader2, ChevronDown, ChevronUp } from "lucide-react";
 import { MarkdownRenderer } from "@/components/common/MarkdownRenderer";
 import { useDebateStore } from "@/stores/debateStore";
+
+/** Split conspectus markdown into named sections keyed by heading. */
+function parseSections(md: string): Map<string, string> {
+  const sections = new Map<string, string>();
+  const regex = /^## (.+)$/gm;
+  const headings: { name: string; start: number }[] = [];
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(md)) !== null) {
+    headings.push({ name: match[1].trim().toLowerCase(), start: match.index });
+  }
+  for (let i = 0; i < headings.length; i++) {
+    const end = i + 1 < headings.length ? headings[i + 1].start : md.length;
+    const body = md.slice(headings[i].start, end).trim();
+    sections.set(headings[i].name, body);
+  }
+  return sections;
+}
+
+const OVERVIEW_KEY = "overview";
+const SYNTHESIS_KEY = "synthesis";
+const AGREEMENT_KEY = "points of agreement";
+const DISAGREEMENT_KEY = "remaining disagreements";
+const GROUPED_KEYS = new Set([OVERVIEW_KEY, SYNTHESIS_KEY, AGREEMENT_KEY, DISAGREEMENT_KEY]);
 
 export function ConspectusDisplay() {
   const conspectus = useDebateStore((s) => s.conspectus);
@@ -11,6 +34,11 @@ export function ConspectusDisplay() {
   const currentRound = useDebateStore((s) => s.currentRound);
   const [copied, setCopied] = useState(false);
   const [showStats, setShowStats] = useState(false);
+
+  const sections = useMemo(
+    () => (conspectus ? parseSections(conspectus) : null),
+    [conspectus],
+  );
 
   if (!conspectus && !generatingConspectus) return null;
 
@@ -23,6 +51,16 @@ export function ConspectusDisplay() {
 
   const totalTokens = Object.values(tokenUsage).reduce((a, b) => a + b, 0);
 
+  // Collect remaining sections (everything not in the three main cards)
+  const remaining: string[] = [];
+  if (sections) {
+    for (const [key, body] of sections) {
+      if (!GROUPED_KEYS.has(key)) remaining.push(body);
+    }
+  }
+
+  const hasParsedSections = sections && sections.size > 0;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -30,7 +68,8 @@ export function ConspectusDisplay() {
       className="border-t border-stone/20 bg-marble"
     >
       <div className="px-4 py-3">
-        <div className="flex items-center justify-between mb-2">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             <FileText className="h-4 w-4 text-gold" />
             <h3 className="font-display text-sm text-ink">Conspectus</h3>
@@ -62,6 +101,7 @@ export function ConspectusDisplay() {
           </div>
         </div>
 
+        {/* Loading */}
         {generatingConspectus && !conspectus && (
           <div className="flex items-center gap-2 py-4 text-sm text-stone">
             <Loader2 className="h-4 w-4 animate-spin text-bronze" />
@@ -69,8 +109,47 @@ export function ConspectusDisplay() {
           </div>
         )}
 
-        {conspectus && (
-          <div className="max-h-64 overflow-y-auto scroll-thin">
+        {/* Sectioned layout */}
+        {conspectus && hasParsedSections && (
+          <div className="space-y-3">
+            {/* Card 1: Overview */}
+            {sections.has(OVERVIEW_KEY) && (
+              <div className="rounded-lg border border-stone/15 bg-white/70 px-4 py-3 shadow-sm">
+                <MarkdownRenderer content={sections.get(OVERVIEW_KEY)!} />
+              </div>
+            )}
+
+            {/* Card 2: Synthesis + Agreements + Disagreements */}
+            {(sections.has(SYNTHESIS_KEY) ||
+              sections.has(AGREEMENT_KEY) ||
+              sections.has(DISAGREEMENT_KEY)) && (
+              <div className="rounded-lg border border-stone/15 bg-white/70 px-4 py-3 shadow-sm space-y-4">
+                {sections.has(SYNTHESIS_KEY) && (
+                  <MarkdownRenderer content={sections.get(SYNTHESIS_KEY)!} />
+                )}
+                {sections.has(AGREEMENT_KEY) && (
+                  <MarkdownRenderer content={sections.get(AGREEMENT_KEY)!} />
+                )}
+                {sections.has(DISAGREEMENT_KEY) && (
+                  <MarkdownRenderer content={sections.get(DISAGREEMENT_KEY)!} />
+                )}
+              </div>
+            )}
+
+            {/* Card 3: Remaining sections */}
+            {remaining.length > 0 && (
+              <div className="rounded-lg border border-stone/15 bg-white/70 px-4 py-3 shadow-sm space-y-4">
+                {remaining.map((body, i) => (
+                  <MarkdownRenderer key={i} content={body} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Fallback: render as single block if parsing found no headings */}
+        {conspectus && !hasParsedSections && (
+          <div className="rounded-lg border border-stone/15 bg-white/70 px-4 py-3 shadow-sm">
             <MarkdownRenderer content={conspectus} />
           </div>
         )}

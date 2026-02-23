@@ -13,8 +13,8 @@ export function DebateConfigPanel() {
     participants,
     maxRounds,
     maxTokensPerTurn,
-    temperature,
     consensusThreshold,
+    moderatorIndex,
     canStartDebate,
   } = useConfigStore();
 
@@ -31,8 +31,8 @@ export function DebateConfigPanel() {
         participants,
         max_rounds: maxRounds,
         max_tokens_per_turn: maxTokensPerTurn,
-        temperature,
         consensus_threshold: consensusThreshold,
+        moderator_index: moderatorIndex,
       },
       apiKeys
     );

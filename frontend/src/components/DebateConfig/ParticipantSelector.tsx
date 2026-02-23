@@ -24,11 +24,18 @@ export function ParticipantSelector() {
   const handleAdd = () => {
     if (!selectedProvider || !selectedModel) return;
     const info = getProviderInfo(selectedProvider);
+    const baseName = `${info.displayName} (${selectedModel})`;
+    // Differentiate duplicate models with a suffix
+    const existing = participants.filter(
+      (p) => p.provider === selectedProvider && p.model === selectedModel
+    ).length;
+    const display_name = existing > 0 ? `${baseName} #${existing + 1}` : baseName;
     addParticipant({
       provider: selectedProvider,
       model: selectedModel,
-      display_name: `${info.displayName} (${selectedModel})`,
+      display_name,
       persona: "",
+      temperature: 0.45,
     });
     setSelectedProvider("");
     setSelectedModel("");
@@ -135,6 +142,23 @@ export function ParticipantSelector() {
                     text-xs text-ink placeholder:text-stone/40
                     focus:border-bronze focus:outline-none"
                 />
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <label className="text-[10px] text-stone">Temp</label>
+                  <input
+                    type="number"
+                    value={p.temperature}
+                    onChange={(e) => {
+                      const v = parseFloat(e.target.value);
+                      if (!isNaN(v)) updateParticipant(i, { temperature: Math.min(2, Math.max(0, v)) });
+                    }}
+                    min={0}
+                    max={2}
+                    step={0.05}
+                    className="w-14 rounded border border-stone/20 bg-white px-1.5 py-1
+                      text-xs text-ink text-center
+                      focus:border-bronze focus:outline-none"
+                  />
+                </div>
                 <button
                   onClick={() => removeParticipant(i)}
                   className="text-stone hover:text-terracotta"

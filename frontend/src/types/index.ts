@@ -23,6 +23,7 @@ export interface Participant {
   model: string;
   display_name: string;
   persona: string;
+  temperature: number;
 }
 
 export interface DebateConfig {
@@ -30,8 +31,8 @@ export interface DebateConfig {
   participants: Participant[];
   max_rounds: number;
   max_tokens_per_turn: number;
-  temperature: number;
   consensus_threshold: number;
+  moderator_index: number;
 }
 
 export interface DebateMessage {

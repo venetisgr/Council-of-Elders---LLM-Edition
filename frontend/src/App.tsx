@@ -1,22 +1,23 @@
 import { ApiKeyPanel } from "@/components/ApiKeyPanel/ApiKeyPanel";
 import { DebateConfigPanel } from "@/components/DebateConfig/DebateConfigPanel";
 import { DebateViewer } from "@/components/DebateViewer/DebateViewer";
+import { HowItWorks } from "@/components/HowItWorks";
 import { ToastProvider } from "@/components/common/Toast";
 import { useDebateStore } from "@/stores/debateStore";
-import { useConfigStore } from "@/stores/configStore";
 import { DebateStatus } from "@/types";
 import { Landmark } from "lucide-react";
 
 function AppContent() {
   const status = useDebateStore((s) => s.status);
   const resetDebate = useDebateStore((s) => s.reset);
-  const resetConfig = useConfigStore((s) => s.reset);
 
   const isSetupPhase = status === DebateStatus.IDLE;
 
+  // Only reset debate state (transcript, round, etc.).
+  // API keys, participants, and config parameters are preserved
+  // so the user can quickly start another debate.
   const handleNewDebate = () => {
     resetDebate();
-    resetConfig();
   };
 
   return (
@@ -27,7 +28,7 @@ function AppContent() {
           <Landmark className="h-7 w-7 text-bronze" />
           <div>
             <h1 className="font-display text-xl text-ink leading-tight">
-              Council of Elders
+              Ancient Athenian Agora
             </h1>
             <p className="text-xs text-stone">LLM Edition</p>
           </div>
@@ -50,10 +51,13 @@ function AppContent() {
         )}
       </main>
 
+      {/* How It Works (collapsible) */}
+      <HowItWorks />
+
       {/* Footer */}
-      <footer className="border-t border-stone/10 py-4 mt-8">
+      <footer className="border-t border-stone/10 py-4 mt-4">
         <p className="text-center text-xs text-stone/50">
-          Council of Elders — Where LLMs deliberate in the spirit of the
+          Ancient Athenian Agora — Where LLMs deliberate in the spirit of the
           Athenian Agora
         </p>
       </footer>

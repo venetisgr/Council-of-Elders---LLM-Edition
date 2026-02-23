@@ -94,9 +94,15 @@ class AnthropicAdapter(LLMAdapter):
             return True
         except anthropic.AuthenticationError:
             return False
-        except Exception as e:
-            logger.warning(f"Anthropic key validation failed unexpectedly: {e}")
-            return False
+        except anthropic.RateLimitError:
+            raise RuntimeError("Rate limited. Please wait a moment and try again.")
+        except anthropic.APIConnectionError:
+            raise RuntimeError(
+                "Could not connect to the Anthropic API. "
+                "Check your network connection."
+            )
+        except anthropic.APIError as e:
+            raise RuntimeError(f"Anthropic API error: {e.message}")
 
     def get_available_models(self) -> list[str]:
         return ANTHROPIC_MODELS.copy()
