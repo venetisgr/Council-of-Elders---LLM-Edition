@@ -6,8 +6,8 @@ interface ConfigStore {
   participants: Participant[];
   maxRounds: number;
   maxTokensPerTurn: number;
-  temperature: number;
   consensusThreshold: number;
+  moderatorIndex: number;
 
   setTopic: (topic: string) => void;
   addParticipant: (participant: Participant) => void;
@@ -15,8 +15,8 @@ interface ConfigStore {
   updateParticipant: (index: number, updates: Partial<Participant>) => void;
   setMaxRounds: (value: number) => void;
   setMaxTokensPerTurn: (value: number) => void;
-  setTemperature: (value: number) => void;
   setConsensusThreshold: (value: number) => void;
+  setModeratorIndex: (index: number) => void;
   canStartDebate: () => boolean;
   getUniqueProviders: () => Provider[];
   reset: () => void;
@@ -27,8 +27,8 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
   participants: [],
   maxRounds: 10,
   maxTokensPerTurn: 1024,
-  temperature: 0.7,
   consensusThreshold: 0.8,
+  moderatorIndex: 0,
 
   setTopic: (topic) => set({ topic }),
 
@@ -38,9 +38,20 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     })),
 
   removeParticipant: (index) =>
-    set((state) => ({
-      participants: state.participants.filter((_, i) => i !== index),
-    })),
+    set((state) => {
+      const newParticipants = state.participants.filter((_, i) => i !== index);
+      // Adjust moderator index if needed
+      let newModeratorIndex = state.moderatorIndex;
+      if (index < state.moderatorIndex) {
+        newModeratorIndex--;
+      } else if (index === state.moderatorIndex) {
+        newModeratorIndex = 0;
+      }
+      if (newModeratorIndex >= newParticipants.length) {
+        newModeratorIndex = 0;
+      }
+      return { participants: newParticipants, moderatorIndex: newModeratorIndex };
+    }),
 
   updateParticipant: (index, updates) =>
     set((state) => ({
@@ -51,8 +62,8 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
 
   setMaxRounds: (maxRounds) => set({ maxRounds }),
   setMaxTokensPerTurn: (maxTokensPerTurn) => set({ maxTokensPerTurn }),
-  setTemperature: (temperature) => set({ temperature }),
   setConsensusThreshold: (consensusThreshold) => set({ consensusThreshold }),
+  setModeratorIndex: (moderatorIndex) => set({ moderatorIndex }),
 
   canStartDebate: () => {
     const { topic, participants } = get();
@@ -70,7 +81,7 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       participants: [],
       maxRounds: 10,
       maxTokensPerTurn: 1024,
-      temperature: 0.7,
       consensusThreshold: 0.8,
+      moderatorIndex: 0,
     }),
 }));

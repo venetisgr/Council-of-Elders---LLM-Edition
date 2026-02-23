@@ -33,6 +33,7 @@ class ParticipantPayload(BaseModel):
     model: str
     display_name: str
     persona: str = ""
+    temperature: float = 0.45
 
 
 class TurnRequest(BaseModel):
@@ -41,7 +42,7 @@ class TurnRequest(BaseModel):
     transcript: list[dict]  # [{"speaker": "...", "content": "..."}]
     api_key: str
     max_tokens: int = 1024
-    temperature: float = 0.7
+    temperature: float = 0.45
 
 
 class ConsensusRequest(BaseModel):
