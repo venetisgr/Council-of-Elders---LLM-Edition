@@ -16,6 +16,7 @@ from fastapi import FastAPI  # noqa: E402
 from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 
 from app.api.keys import router as keys_router  # noqa: E402
+from app.api.debate import router as debate_router  # noqa: E402
 
 app = FastAPI(title="Council of Elders API")
 
@@ -29,6 +30,9 @@ app.add_middleware(
 
 # /api/keys/validate  and  /api/keys/providers
 app.include_router(keys_router)
+
+# /api/debate/turn, /api/debate/consensus, /api/debate/conspectus
+app.include_router(debate_router)
 
 
 @app.get("/health")

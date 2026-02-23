@@ -9,6 +9,7 @@ import socketio
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from .api.debate import router as debate_router
 from .api.keys import router as keys_router
 from .config import config
 from .services.session import session_manager
@@ -59,6 +60,7 @@ app.add_middleware(
 
 # Include REST API routers
 app.include_router(keys_router)
+app.include_router(debate_router)
 
 
 # Health check
