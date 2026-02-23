@@ -1,6 +1,7 @@
 import { ApiKeyPanel } from "@/components/ApiKeyPanel/ApiKeyPanel";
 import { DebateConfigPanel } from "@/components/DebateConfig/DebateConfigPanel";
 import { DebateViewer } from "@/components/DebateViewer/DebateViewer";
+import { HowItWorks } from "@/components/HowItWorks";
 import { ToastProvider } from "@/components/common/Toast";
 import { useDebateStore } from "@/stores/debateStore";
 import { DebateStatus } from "@/types";
@@ -50,8 +51,11 @@ function AppContent() {
         )}
       </main>
 
+      {/* How It Works (collapsible) */}
+      <HowItWorks />
+
       {/* Footer */}
-      <footer className="border-t border-stone/10 py-4 mt-8">
+      <footer className="border-t border-stone/10 py-4 mt-4">
         <p className="text-center text-xs text-stone/50">
           Ancient Athenian Agora — Where LLMs deliberate in the spirit of the
           Athenian Agora

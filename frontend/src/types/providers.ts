@@ -18,7 +18,7 @@ export const PROVIDERS: ProviderInfo[] = [
   },
   {
     id: Provider.OPENAI,
-    displayName: "GPT",
+    displayName: "OpenAI",
     color: "#10B981",
     defaultModel: "gpt-5.2",
     description: "OpenAI's GPT models",
