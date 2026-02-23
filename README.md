@@ -18,14 +18,14 @@ Think of it as a **virtual panel of AI experts**. Each participant brings a diff
 
 | Provider | Models | Notes |
 |----------|--------|-------|
-| **Anthropic** (Claude) | Claude 4 Opus, Sonnet, Haiku, etc. | Native SDK |
-| **OpenAI** | GPT-5.2, GPT-4o, o1, o3, etc. | Native SDK |
-| **Google** (Gemini) | Gemini 2.5 Pro, Flash, etc. | Native SDK |
-| **xAI** (Grok) | Grok 3, Grok 3 Mini, etc. | OpenAI-compatible |
-| **DeepSeek** | DeepSeek-R1, Chat, etc. | OpenAI-compatible |
-| **Kimi** (Moonshot) | Moonshot v1 8K/32K/128K | OpenAI-compatible |
-| **Qwen** (Alibaba) | Qwen-Turbo, Plus, Max, etc. | OpenAI-compatible |
-| **GLM** (Zhipu) | GLM-4, GLM-4-Flash, etc. | OpenAI-compatible |
+| **Anthropic** (Claude) | claude-opus-4-6, claude-sonnet-4-6, claude-haiku-4-5 | Native SDK |
+| **OpenAI** | gpt-5.2, gpt-4o, gpt-4o-mini | Native SDK |
+| **Google** (Gemini) | gemini-3-pro-preview, gemini-2.5-pro-preview, gemini-2.0-flash, gemini-2.0-flash-lite | Native SDK |
+| **xAI** (Grok) | grok-3, grok-3-mini, grok-2, grok-2-mini | OpenAI-compatible |
+| **DeepSeek** | deepseek-chat, deepseek-reasoner | OpenAI-compatible |
+| **Kimi** (Moonshot) | moonshot-v1-128k, moonshot-v1-32k, moonshot-v1-8k | OpenAI-compatible |
+| **Qwen** (Alibaba) | qwen3-max, qwen3.5-plus, qwen-plus | OpenAI-compatible |
+| **GLM** (Zhipu) | glm-5, glm-4-plus | OpenAI-compatible |
 
 You bring your own API keys. Keys are stored only in your browser's `sessionStorage` (cleared when the tab closes), transmitted over HTTPS, held in server memory only during the debate, and purged when the debate ends or the session times out (30 minutes).
 
