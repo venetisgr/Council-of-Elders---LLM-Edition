@@ -24,10 +24,16 @@ export function ParticipantSelector() {
   const handleAdd = () => {
     if (!selectedProvider || !selectedModel) return;
     const info = getProviderInfo(selectedProvider);
+    const baseName = `${info.displayName} (${selectedModel})`;
+    // Differentiate duplicate models with a suffix
+    const existing = participants.filter(
+      (p) => p.provider === selectedProvider && p.model === selectedModel
+    ).length;
+    const display_name = existing > 0 ? `${baseName} #${existing + 1}` : baseName;
     addParticipant({
       provider: selectedProvider,
       model: selectedModel,
-      display_name: `${info.displayName} (${selectedModel})`,
+      display_name,
       persona: "",
     });
     setSelectedProvider("");

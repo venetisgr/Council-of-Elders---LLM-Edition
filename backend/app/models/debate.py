@@ -49,7 +49,7 @@ class DebateConfig(BaseModel):
     """Configuration for a debate session."""
 
     topic: str
-    participants: list[Participant]
+    participants: list[Participant] = Field(min_length=2)
     max_rounds: int = Field(default=10, ge=1, le=50)
     max_tokens_per_turn: int = Field(default=1024, ge=100, le=4096)
     temperature: float = Field(default=0.7, ge=0.0, le=2.0)

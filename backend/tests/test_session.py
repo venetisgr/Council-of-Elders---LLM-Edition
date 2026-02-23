@@ -19,7 +19,12 @@ def _make_session(**kwargs) -> DebateSession:
                     provider=Provider.ANTHROPIC,
                     model="test-model",
                     display_name="Test Speaker",
-                )
+                ),
+                Participant(
+                    provider=Provider.OPENAI,
+                    model="test-model-2",
+                    display_name="Test Speaker 2",
+                ),
             ],
         ),
         api_keys={"anthropic": "test-key-12345"},
