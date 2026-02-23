@@ -3,20 +3,20 @@ import { DebateConfigPanel } from "@/components/DebateConfig/DebateConfigPanel";
 import { DebateViewer } from "@/components/DebateViewer/DebateViewer";
 import { ToastProvider } from "@/components/common/Toast";
 import { useDebateStore } from "@/stores/debateStore";
-import { useConfigStore } from "@/stores/configStore";
 import { DebateStatus } from "@/types";
 import { Landmark } from "lucide-react";
 
 function AppContent() {
   const status = useDebateStore((s) => s.status);
   const resetDebate = useDebateStore((s) => s.reset);
-  const resetConfig = useConfigStore((s) => s.reset);
 
   const isSetupPhase = status === DebateStatus.IDLE;
 
+  // Only reset debate state (transcript, round, etc.).
+  // API keys, participants, and config parameters are preserved
+  // so the user can quickly start another debate.
   const handleNewDebate = () => {
     resetDebate();
-    resetConfig();
   };
 
   return (
