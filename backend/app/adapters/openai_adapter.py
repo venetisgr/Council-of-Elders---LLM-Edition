@@ -13,10 +13,8 @@ logger = logging.getLogger(__name__)
 
 OPENAI_MODELS = [
     "gpt-5.2",
-    "gpt-5.2-pro",
     "gpt-4o",
     "gpt-4o-mini",
-    "o3-mini",
 ]
 
 
@@ -55,6 +53,11 @@ class OpenAIAdapter(LLMAdapter):
                     yield chunk.choices[0].delta.content
         except openai.AuthenticationError:
             raise ValueError("Invalid OpenAI API key")
+        except openai.NotFoundError:
+            raise RuntimeError(
+                f"Model '{config.model}' was not found or is not a chat model. "
+                "Please check the model name and try a different one."
+            )
         except openai.RateLimitError:
             raise RuntimeError("OpenAI rate limit exceeded. Please wait and retry.")
         except openai.APIError as e:
@@ -86,6 +89,11 @@ class OpenAIAdapter(LLMAdapter):
             )
         except openai.AuthenticationError:
             raise ValueError("Invalid OpenAI API key")
+        except openai.NotFoundError:
+            raise RuntimeError(
+                f"Model '{config.model}' was not found or is not a chat model. "
+                "Please check the model name and try a different one."
+            )
         except openai.RateLimitError:
             raise RuntimeError("OpenAI rate limit exceeded. Please wait and retry.")
         except openai.APIError as e:
