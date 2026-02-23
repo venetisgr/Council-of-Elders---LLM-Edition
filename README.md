@@ -1,5 +1,7 @@
 # Ancient Athenian Agora — LLM Edition
 
+**Live at [agora-llm.vercel.app](https://agora-llm.vercel.app/)**
+
 A first-of-its-kind platform that brings the world's leading AI models together for structured, multi-round deliberation on any topic you choose. Instead of asking one model and hoping for the best, pit Claude, GPT, Gemini, Grok, DeepSeek, Kimi, Qwen, and GLM against each other in a live debate — and let them argue, challenge, and refine each other's reasoning in real time.
 
 Think of it as a **virtual panel of AI experts**. Each participant brings a different training background, knowledge base, and reasoning style. By forcing them to engage directly with each other's arguments — agreeing where they find common ground and pushing back where they don't — the Agora surfaces insights, blind spots, and nuances that no single model would produce alone.
@@ -20,6 +22,38 @@ Think of it as a **virtual panel of AI experts**. Each participant brings a diff
 | Backend | Python 3.11+, FastAPI, python-socketio, httpx (async), Pydantic |
 | Real-time | WebSocket via Socket.IO (bidirectional: streaming tokens + user controls) |
 | LLM SDKs | `anthropic`, `openai` (also for xAI, DeepSeek, Kimi, Qwen, GLM), `google-genai` |
+
+### Frontend
+
+| Category | Technology | Purpose |
+|----------|-----------|---------|
+| Core | **React 18** | UI framework for building interactive components |
+| Core | **TypeScript** | Static typing and type safety |
+| Core | **Vite** | Build tool and dev server with HMR |
+| Styling | **Tailwind CSS** | Utility-first CSS framework |
+| Styling | **PostCSS** + **Autoprefixer** | CSS processing and vendor prefixing |
+| State | **Zustand** | Lightweight state management |
+| Real-time | **Socket.IO Client** | WebSocket communication for streaming tokens |
+| Animation | **Framer Motion** | Smooth UI transitions and animations |
+| Rendering | **react-markdown** + **remark-gfm** + **rehype-raw** | Markdown rendering with GitHub Flavored Markdown |
+| Rendering | **react-syntax-highlighter** | Syntax highlighting for code blocks |
+| Icons | **Lucide React** | SVG icon library |
+| Linting | **ESLint** + **typescript-eslint** | Code quality and style enforcement |
+
+### Backend
+
+| Category | Technology | Purpose |
+|----------|-----------|---------|
+| Framework | **FastAPI** | Async Python web framework for REST APIs |
+| Server | **Uvicorn** | ASGI server with WebSocket support |
+| Real-time | **python-socketio** | Server-side WebSocket event handling |
+| HTTP | **httpx** | Async HTTP client for LLM API calls |
+| Validation | **Pydantic** | Data validation and serialization via type hints |
+| Config | **python-dotenv** | Environment variable management |
+| LLM SDK | **anthropic** | Anthropic Claude API client |
+| LLM SDK | **openai** | OpenAI API client (also powers xAI, DeepSeek, Kimi, Qwen, GLM) |
+| LLM SDK | **google-genai** | Google Gemini API client |
+| Testing | **pytest** + **pytest-asyncio** | Unit and async integration testing |
 
 ## Supported LLM Providers
 
