@@ -24,6 +24,7 @@ class GLMAdapter(OpenAIAdapter):
     """
 
     provider_name = "glm"
+    _token_limit_param = "max_tokens"
 
     def __init__(self):
         super().__init__(base_url=GLM_BASE_URL)

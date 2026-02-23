@@ -20,6 +20,7 @@ class DeepSeekAdapter(OpenAIAdapter):
     """
 
     provider_name = "deepseek"
+    _token_limit_param = "max_tokens"
 
     def __init__(self):
         super().__init__(base_url=DEEPSEEK_BASE_URL)

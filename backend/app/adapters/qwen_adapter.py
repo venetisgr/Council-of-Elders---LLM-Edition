@@ -27,6 +27,7 @@ class QwenAdapter(OpenAIAdapter):
     """
 
     provider_name = "qwen"
+    _token_limit_param = "max_tokens"
 
     def __init__(self):
         super().__init__(base_url=QWEN_BASE_URL)
