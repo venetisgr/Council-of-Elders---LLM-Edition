@@ -14,47 +14,6 @@ Think of it as a **virtual panel of AI experts**. Each participant brings a diff
 - **Generate robust conclusions** — The consensus engine and final conspectus distill hours of potential research into a structured, multi-perspective summary.
 - **Learn and explore** — Pose philosophical, scientific, or creative questions and watch genuinely different viewpoints collide.
 
-## Tech Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 18, TypeScript, Vite, Tailwind CSS, Zustand, Socket.IO client |
-| Backend | Python 3.11+, FastAPI, python-socketio, httpx (async), Pydantic |
-| Real-time | WebSocket via Socket.IO (bidirectional: streaming tokens + user controls) |
-| LLM SDKs | `anthropic`, `openai` (also for xAI, DeepSeek, Kimi, Qwen, GLM), `google-genai` |
-
-### Frontend
-
-| Category | Technology | Purpose |
-|----------|-----------|---------|
-| Core | **React 18** | UI framework for building interactive components |
-| Core | **TypeScript** | Static typing and type safety |
-| Core | **Vite** | Build tool and dev server with HMR |
-| Styling | **Tailwind CSS** | Utility-first CSS framework |
-| Styling | **PostCSS** + **Autoprefixer** | CSS processing and vendor prefixing |
-| State | **Zustand** | Lightweight state management |
-| Real-time | **Socket.IO Client** | WebSocket communication for streaming tokens |
-| Animation | **Framer Motion** | Smooth UI transitions and animations |
-| Rendering | **react-markdown** + **remark-gfm** + **rehype-raw** | Markdown rendering with GitHub Flavored Markdown |
-| Rendering | **react-syntax-highlighter** | Syntax highlighting for code blocks |
-| Icons | **Lucide React** | SVG icon library |
-| Linting | **ESLint** + **typescript-eslint** | Code quality and style enforcement |
-
-### Backend
-
-| Category | Technology | Purpose |
-|----------|-----------|---------|
-| Framework | **FastAPI** | Async Python web framework for REST APIs |
-| Server | **Uvicorn** | ASGI server with WebSocket support |
-| Real-time | **python-socketio** | Server-side WebSocket event handling |
-| HTTP | **httpx** | Async HTTP client for LLM API calls |
-| Validation | **Pydantic** | Data validation and serialization via type hints |
-| Config | **python-dotenv** | Environment variable management |
-| LLM SDK | **anthropic** | Anthropic Claude API client |
-| LLM SDK | **openai** | OpenAI API client (also powers xAI, DeepSeek, Kimi, Qwen, GLM) |
-| LLM SDK | **google-genai** | Google Gemini API client |
-| Testing | **pytest** + **pytest-asyncio** | Unit and async integration testing |
-
 ## Supported LLM Providers
 
 | Provider | Models | Notes |
@@ -328,6 +287,49 @@ API keys are ephemeral throughout the entire flow:
 - **Transport**: sent only over HTTPS
 - **Server**: held in an in-memory session dict, never written to disk, logs, or any persistent store
 - **Cleanup**: purged when the debate ends or the session times out (30 min inactivity)
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 18, TypeScript, Vite, Tailwind CSS, Zustand, Socket.IO client |
+| Backend | Python 3.11+, FastAPI, python-socketio, httpx (async), Pydantic |
+| Real-time | WebSocket via Socket.IO (bidirectional: streaming tokens + user controls) |
+| LLM SDKs | `anthropic`, `openai` (also for xAI, DeepSeek, Kimi, Qwen, GLM), `google-genai` |
+
+### Frontend
+
+| Category | Technology | Purpose |
+|----------|-----------|---------|
+| Core | **React 18** | UI framework for building interactive components |
+| Core | **TypeScript** | Static typing and type safety |
+| Core | **Vite** | Build tool and dev server with HMR |
+| Styling | **Tailwind CSS** | Utility-first CSS framework |
+| Styling | **PostCSS** + **Autoprefixer** | CSS processing and vendor prefixing |
+| State | **Zustand** | Lightweight state management |
+| Real-time | **Socket.IO Client** | WebSocket communication for streaming tokens |
+| Animation | **Framer Motion** | Smooth UI transitions and animations |
+| Rendering | **react-markdown** + **remark-gfm** + **rehype-raw** | Markdown rendering with GitHub Flavored Markdown |
+| Rendering | **react-syntax-highlighter** | Syntax highlighting for code blocks |
+| Icons | **Lucide React** | SVG icon library |
+| Linting | **ESLint** + **typescript-eslint** | Code quality and style enforcement |
+
+### Backend
+
+| Category | Technology | Purpose |
+|----------|-----------|---------|
+| Framework | **FastAPI** | Async Python web framework for REST APIs |
+| Server | **Uvicorn** | ASGI server with WebSocket support |
+| Real-time | **python-socketio** | Server-side WebSocket event handling |
+| HTTP | **httpx** | Async HTTP client for LLM API calls |
+| Validation | **Pydantic** | Data validation and serialization via type hints |
+| Config | **python-dotenv** | Environment variable management |
+| LLM SDK | **anthropic** | Anthropic Claude API client |
+| LLM SDK | **openai** | OpenAI API client (also powers xAI, DeepSeek, Kimi, Qwen, GLM) |
+| LLM SDK | **google-genai** | Google Gemini API client |
+| Testing | **pytest** + **pytest-asyncio** | Unit and async integration testing |
 
 ---
 
