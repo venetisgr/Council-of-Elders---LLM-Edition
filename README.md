@@ -303,6 +303,4 @@ Found a bug or have a suggestion? [Open an issue](https://github.com/venetisgr/C
 
 If you enjoy the Agora, consider [starring the repository](https://github.com/venetisgr/Council-of-Elders---LLM-Edition) — it helps others discover the project.
 
-## License
 
-See [LICENSE](LICENSE) for details.
