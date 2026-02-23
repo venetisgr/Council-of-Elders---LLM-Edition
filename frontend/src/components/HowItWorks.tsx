@@ -245,6 +245,33 @@ export function HowItWorks() {
             </div>
           </div>
 
+          {/* ---- Community ---- */}
+          <div className="border-t border-stone/20 pt-4 text-center text-xs text-stone">
+            <p>
+              Found a bug or have a suggestion?{" "}
+              <a
+                href="https://github.com/venetisgr/Council-of-Elders---LLM-Edition/issues"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-bronze hover:text-ink underline underline-offset-2 transition-colors"
+              >
+                Open an issue on GitHub
+              </a>.
+            </p>
+            <p className="mt-1">
+              If you enjoy the Agora, consider{" "}
+              <a
+                href="https://github.com/venetisgr/Council-of-Elders---LLM-Edition"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-bronze hover:text-ink underline underline-offset-2 transition-colors"
+              >
+                starring the repository
+              </a>{" "}
+              — it helps others discover the project.
+            </p>
+          </div>
+
         </div>
       )}
     </section>
