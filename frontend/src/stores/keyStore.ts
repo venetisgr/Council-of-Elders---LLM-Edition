@@ -103,12 +103,17 @@ export const useKeyStore = create<KeyStore>((set, get) => ({
         },
       }));
     } catch (err) {
-      const error =
-        err instanceof TypeError
-          ? "Cannot reach the server. Is the backend running?"
-          : err instanceof Error
-            ? err.message
-            : "Validation failed unexpectedly.";
+      let error: string;
+      if (err instanceof TypeError) {
+        error = "Cannot reach the backend. Is the server running?";
+      } else if (err instanceof Error && err.message.includes("405")) {
+        error =
+          "Backend not connected. Start the backend locally or set VITE_BACKEND_URL.";
+      } else if (err instanceof Error) {
+        error = err.message;
+      } else {
+        error = "Validation failed unexpectedly.";
+      }
       set((s) => ({
         keys: {
           ...s.keys,
