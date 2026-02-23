@@ -27,7 +27,7 @@ function AppContent() {
           <Landmark className="h-7 w-7 text-bronze" />
           <div>
             <h1 className="font-display text-xl text-ink leading-tight">
-              Council of Elders
+              Ancient Athenian Agora
             </h1>
             <p className="text-xs text-stone">LLM Edition</p>
           </div>
@@ -53,7 +53,7 @@ function AppContent() {
       {/* Footer */}
       <footer className="border-t border-stone/10 py-4 mt-8">
         <p className="text-center text-xs text-stone/50">
-          Council of Elders — Where LLMs deliberate in the spirit of the
+          Ancient Athenian Agora — Where LLMs deliberate in the spirit of the
           Athenian Agora
         </p>
       </footer>
