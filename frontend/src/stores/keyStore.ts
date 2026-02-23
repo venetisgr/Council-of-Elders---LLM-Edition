@@ -52,10 +52,17 @@ export const useKeyStore = create<KeyStore>((set, get) => ({
         glm: "glm",
       } as Record<string, Provider>
     );
+    const existing = get().keys;
     const keys: Record<string, KeyState> = {};
     for (const p of providers) {
-      const stored = loadKey(p);
-      keys[p] = { ...defaultKeyState(), key: stored };
+      const prev = existing[p];
+      // Keep already-validated keys intact so users don't re-validate
+      if (prev && prev.valid === true && prev.key) {
+        keys[p] = prev;
+      } else {
+        const stored = loadKey(p);
+        keys[p] = { ...defaultKeyState(), key: stored };
+      }
     }
     set({ keys });
   },
