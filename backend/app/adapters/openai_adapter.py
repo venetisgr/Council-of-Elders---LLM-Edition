@@ -24,6 +24,10 @@ class OpenAIAdapter(LLMAdapter):
     """Adapter for OpenAI's GPT models via the Chat Completions API."""
 
     provider_name = "openai"
+    # Newer OpenAI models (GPT-5.2, o-series) require 'max_completion_tokens'
+    # instead of 'max_tokens'. Third-party OpenAI-compatible providers that
+    # don't yet support this parameter can override with "max_tokens".
+    _token_limit_param = "max_completion_tokens"
 
     def __init__(self, base_url: str | None = None):
         """Initialize with optional custom base URL (used by xAI adapter)."""
@@ -42,9 +46,9 @@ class OpenAIAdapter(LLMAdapter):
             stream = await client.chat.completions.create(
                 model=config.model,
                 messages=api_messages,
-                max_tokens=config.max_tokens,
                 temperature=config.temperature,
                 stream=True,
+                **{self._token_limit_param: config.max_tokens},
             )
             async for chunk in stream:
                 if chunk.choices and chunk.choices[0].delta.content:
@@ -69,8 +73,8 @@ class OpenAIAdapter(LLMAdapter):
             response = await client.chat.completions.create(
                 model=config.model,
                 messages=api_messages,
-                max_tokens=config.max_tokens,
                 temperature=config.temperature,
+                **{self._token_limit_param: config.max_tokens},
             )
             choice = response.choices[0]
             return GenerationResult(

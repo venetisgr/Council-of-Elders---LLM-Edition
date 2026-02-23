@@ -22,6 +22,7 @@ class XAIAdapter(OpenAIAdapter):
     """
 
     provider_name = "xai"
+    _token_limit_param = "max_tokens"
 
     def __init__(self):
         super().__init__(base_url=XAI_BASE_URL)
